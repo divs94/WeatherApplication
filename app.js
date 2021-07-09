@@ -94,7 +94,7 @@ const displayWeather = (data) =>
                         </h5>
                         <p>${getDateTime(data.dt)}</p>
                         <div id="temp-card">${tempCard(data.main)}</div>
-                        ${data.weather.map(w => `  <div id="img-container">${w.main} <img src="http://openweathermap.org/img/wn/${w.icon}.png"></div>
+                        ${data.weather.map(w => `  <div id="img-container">${w.main} <img src="https://openweathermap.org/img/wn/${w.icon}.png"></div>
                         <p>${w.description}</p>`)
 
                          .join("\n")}
