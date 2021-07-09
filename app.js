@@ -1,10 +1,10 @@
 const config = {
     cUrl: "https://api.countrystatecity.in/v1/countries",
     cKey: "UWdLUE1pVWhnS3poTkRQNnBBWEFHamRGN0dEQ1BDM0IxVFIyWGRnaA==",
-    wUrl: "http://api.openweathermap.org/data/2.5/",
+    wUrl: "https://api.openweathermap.org/data/2.5/",
     wKey: "a9e30f59660c6a75761abf2e80c03a5d",
 };
-// get countries   
+// get countries
 const getCountries = async (fieldName, ...args) => {
     let apiEndPoint;
     // https://api.countrystatecity.in/v1/countries/[ciso]/states/[siso]/cities
@@ -33,9 +33,9 @@ const getCountries = async (fieldName, ...args) => {
 };
   // get weatherinfo
 const getWeather = async (cityName, ccode, units = "metric") => {
-    
+
     const apiEndPoint = `${config.wUrl}weather?q=${cityName},${ccode.toLowerCase()}&APPID=${config.wKey}&units=${units}`;
- 
+
     try {
         const response = await fetch(apiEndPoint);
         if (response.status != 200) {
@@ -79,11 +79,11 @@ const tempCard = (val, unit = "cel") => {
 
                         </div>`;
 }
-    
-    
-    
-    
-    
+
+
+
+
+
 const displayWeather = (data) =>
 {
     const weatherWidget = `  <div class="card">
@@ -96,12 +96,12 @@ const displayWeather = (data) =>
                         <div id="temp-card">${tempCard(data.main)}</div>
                         ${data.weather.map(w => `  <div id="img-container">${w.main} <img src="http://openweathermap.org/img/wn/${w.icon}.png"></div>
                         <p>${w.description}</p>`)
-        
+
                          .join("\n")}
-                      
-                    </div> 
+
+                    </div>
                 </div>`;
-    
+
     weatherDiv.innerHTML = weatherWidget;
 };
 
@@ -127,16 +127,16 @@ document.addEventListener("DOMContentLoaded", async() => {
         countriesOptions += '<option value="">Country</option>';
         countries.forEach((country) => {
             countriesOptions += `<option value="${country.iso2}">${country.name}</option>`;
-            
+
         });
         countriesListDropDown.innerHTML = countriesOptions;
         }
 
 
     // list states
-    countriesListDropDown.addEventListener("change", async function () { 
+    countriesListDropDown.addEventListener("change", async function () {
         const selectedCountryCode = this.value;
-        
+
         const states = await  getCountries("states", selectedCountryCode);
         // console.log(states);
         let statesOptions = "";
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", async() => {
         weatherDiv.innerHTML = getLoader();
         const weatherInfo = await getWeather(selectedCity, selectedCountryCode);
         displayWeather(weatherInfo);
-       
+
         // console.log(weatherInfo);
 
     });
@@ -191,10 +191,10 @@ document.addEventListener("DOMContentLoaded", async() => {
 
             const unitFlag = unitValue == "far" ? "imperial" : "metric";
             const weatherInfo = await getWeather(selectedCity, selectedCountryCode, unitFlag);
-            
+
             const weatherTemp = tempCard(weatherInfo.main, unitValue);
             document.querySelector("#temp-card").innerHTML = weatherTemp;
-             
+
             //active unit
 
             document.querySelectorAll(".unitlink").forEach(link => {
@@ -205,5 +205,5 @@ document.addEventListener("DOMContentLoaded", async() => {
         };
     });
 
- 
+
 });
